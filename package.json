@@ -15,11 +15,21 @@
         "passport-google-oauth": "^2.0.0",
         "validate.js": "^0.13.1"
     },
+    "scripts": {
+        "clean": "rm -rf ./dist",
+        "buildServer": "cd server && rm -rf node_modules && rm -rf dist && npm install && npm run buildProd && mv ./dist ../ && cp -R ./package*.json ../dist && cd ../dist && npm install --only=prod && rm ./*.json && cd ..",
+        "buildClient": "cd client && rm -rf node_modules && rm -rf build && npm install && npm run build && cp -R ./build/. ../dist/web",
+        "buildDocker": "npm run clean && npm run buildServer && npm run buildClient && docker build -t eu.gcr.io/aazzur-test/backoffice .",
+        "start": "node ./dist/server.js"
+    },
     "devDependencies": {
         "@babel/core": "^7.5.5",
         "@babel/preset-env": "^7.5.5",
         "@babel/register": "^7.5.5",
         "babel-polyfill": "^6.26.0",
-        "babel-preset-es2015": "^6.24.1"
+        "babel-preset-es2015": "^6.24.1",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.10",
+        "webpack-node-externals": "^1.7.2"
     }
 }
